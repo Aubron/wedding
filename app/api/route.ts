@@ -1,10 +1,8 @@
 import clientPromise from "../../lib/mongodb";
-import { NextApiRequest, NextApiResponse } from 'next';
-
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // To handle a GET request to /api
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
     try {
         const client = await clientPromise;
         const db = client.db("rsvp");
@@ -20,7 +18,7 @@ export async function GET(request: NextApiRequest) {
 }
 
 // To handle a POST request to /api
-export async function POST(request: NextApiRequest) {
+export async function POST(request: NextRequest) {
   // Do whatever you want
   return NextResponse.json({ message: "Hello World" }, { status: 200 });
 }
