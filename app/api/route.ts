@@ -68,7 +68,7 @@ const server = new ApolloServer({
 
 const handler = startServerAndCreateNextHandler<NextRequest>(server);
 
-const graphql = async (req: NextRequest, res: NextResponse) => {
+const graphql = (req: NextRequest, res: NextResponse) => {
   if (
     req.method === "POST" &&
     req.headers.get("x-rsvp-password") !== process.env.RSVP_PASSWORD
@@ -76,6 +76,6 @@ const graphql = async (req: NextRequest, res: NextResponse) => {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   // @ts-ignore
-  return handler(req, res);
+  return handler(req, res) as Promise<Response>;
 };
 export { handler as GET, graphql as POST };
