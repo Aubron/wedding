@@ -1,51 +1,48 @@
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code"
-import { button as buttonStyles } from "@nextui-org/theme";
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+"use client";
+import { dolce, layaan } from "@/styles/fonts";
+import { Card } from "@nextui-org/card";
+import { Input } from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-	return (
-		<section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-			<div className="inline-block max-w-lg text-center justify-center">
-				<h1 className={title()}>Make&nbsp;</h1>
-				<h1 className={title({ color: "violet" })}>beautiful&nbsp;</h1>
-				<br />
-				<h1 className={title()}>
-					websites regardless of your design experience.
-				</h1>
-				<h2 className={subtitle({ class: "mt-4" })}>
-					Beautiful, fast and modern React UI library.
-				</h2>
-			</div>
+  const router = useRouter();
+  return (
+    <section className="flex flex-col items-center justify-center gap-4 py-10 md:py-10 mt-20">
+      <div className="inline-block max-w-lg text-center justify-center">
+        <Card className="p-12 border-2 border-foreground-300">
+          <h1 className={`text-6xl drop-shadow-md ${layaan.className}`}>
+            إيثـــار<span className="text-foreground-400"> و </span>أوبرون
+          </h1>
+          <h1 className={`text-4xl drop-shadow-md pt-6 ${dolce.className}`}>
+            ( Aubron<span className="text-foreground-400"> + </span>Ethar )
+          </h1>
+        </Card>
+      </div>
 
-			<div className="flex gap-3">
-				<Link
-					isExternal
-					href={siteConfig.links.docs}
-					className={buttonStyles({ color: "primary", radius: "full", variant: "shadow" })}
-				>
-					Documentation
-				</Link>
-				<Link
-					isExternal
-					className={buttonStyles({ variant: "bordered", radius: "full" })}
-					href={siteConfig.links.github}
-				>
-					<GithubIcon size={20} />
-					GitHub
-				</Link>
-			</div>
-
-			<div className="mt-8">
-				<Snippet hideSymbol hideCopyButton variant="flat">
-					<span>
-						Get started by editing <Code color="primary">app/page.tsx</Code>
-					</span>
-				</Snippet>
-			</div>
-		</section>
-	);
+      <div className="w-80 flex gap-0 pt-4 items-center">
+        <Input
+          className="inline-block"
+          classNames={{
+            inputWrapper: "rounded-tr-none rounded-br-none",
+          }}
+          type="text"
+          label="Password"
+          fullWidth
+          size="sm"
+        />
+        <Button
+          className="inline-block rounded-md rounded-tl-none rounded-bl-none text-sm"
+          color="primary"
+          size="lg"
+          onClick={() => router.push("/about")}
+        >
+          Submit
+        </Button>
+      </div>
+      <div className="text-xs text-foreground-300">
+        (Password should be in your digital or physical invitation.)
+      </div>
+    </section>
+  );
 }
