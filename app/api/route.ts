@@ -8,6 +8,7 @@ import { gql } from "graphql-tag";
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "../../lib/mongodb";
 import { RsvpUser } from "./DataTypes";
+import { ObjectId } from "mongodb";
 
 // Same logic to add a `PATCH`, `DELETE`...
 const resolvers = {
@@ -25,6 +26,18 @@ const resolvers = {
         console.error(e);
       }
     },
+    getUserInfo: async (_: any, { id }: { id: string }) => {
+      try {
+        const client = await clientPromise;
+        const db = client.db("rsvp");
+        const person = await db
+          .collection("people")
+          .findOne({ _id: new ObjectId(id) });
+        return person;
+      } catch (e) {
+        console.error(e);
+      }
+    },
   },
   Mutation: {
     checkAuth: () => true,
@@ -34,6 +47,7 @@ const resolvers = {
 const typeDefs = gql`
   type Query {
     getUsers: [RsvpUser]!
+    getUserInfo(id: ID!): RsvpUser
   }
 
   type Mutation {
