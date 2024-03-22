@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 export const metadata: Metadata = {
   title: {
-    default: siteConfig.name,
+    default: siteConfig.name + " June 29, 2024",
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -26,6 +26,8 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
