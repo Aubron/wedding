@@ -7,7 +7,7 @@ import {
 import { gql } from "graphql-tag";
 import { NextRequest, NextResponse } from "next/server";
 import clientPromise from "../../lib/mongodb";
-import { RsvpUser } from "./DataTypes";
+import { RsvpUser, UpdateUserInput } from "./DataTypes";
 import { ObjectId } from "mongodb";
 
 // Same logic to add a `PATCH`, `DELETE`...
@@ -41,6 +41,30 @@ const resolvers = {
   },
   Mutation: {
     checkAuth: () => true,
+    updateUser: async (
+      _: any,
+      { id, input }: { id: string; input: UpdateUserInput }
+    ) => {
+      try {
+        const client = await clientPromise;
+        const db = client.db("rsvp");
+        const result = await db.collection("people").findOneAndUpdate(
+          { _id: new ObjectId(id) },
+          {
+            $set: {
+              ...input,
+              hasRsvped: true,
+            },
+          },
+          { returnDocument: "after" }
+        );
+        if (result) {
+          return result.value;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    },
   },
 };
 
@@ -52,6 +76,7 @@ const typeDefs = gql`
 
   type Mutation {
     checkAuth: Boolean
+    updateUser(id: ID!, input: UpdateUserInput!): RsvpUser
   }
 
   type RsvpUser {
@@ -62,6 +87,17 @@ const typeDefs = gql`
     hasRsvped: Boolean!
     rsvpStatus: Boolean!
     vegan: Boolean!
+    rsvpSecondaryStatus: Boolean!
+    veganSecondary: Boolean!
+    secondaryEditable: Boolean!
+  }
+
+  input UpdateUserInput {
+    name_secondary: String
+    rsvpStatus: Boolean!
+    vegan: Boolean!
+    rsvpSecondaryStatus: Boolean!
+    veganSecondary: Boolean!
   }
 `;
 

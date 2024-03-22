@@ -19,6 +19,23 @@ export const about = tv({
   },
 });
 
+export const buttons = tv({
+  base: "text-center flex flex-col justify-center items-center absolute z-10 top-1 h-full",
+});
+
+export const buttonText = tv({
+  base: gaultier.className,
+  variants: {
+    variant: {
+      heading: "text-3xl",
+      subheading: "text-md -mb-1",
+    },
+    white: {
+      true: "text-white",
+    },
+  },
+});
+
 export const title = tv({
   base: "tracking-tight inline font-semibold",
   variants: {

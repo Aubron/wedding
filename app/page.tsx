@@ -95,7 +95,7 @@ export default function Home() {
           color={passwordError ? "danger" : "primary"}
           size="lg"
           onClick={handleSubmit}
-          isLoading={loading}
+          isDisabled={loading}
         >
           Submit
         </Button>
