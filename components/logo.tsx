@@ -38,14 +38,14 @@ export const Logo = () => {
   return (
     <div className="h-full">
       <animated.div
-        className={`${layaan.className} text-2xl md:text-3xl absolute bottom-2 left-8`}
+        className={`${layaan.className} text-2xl md:text-3xl absolute bottom-2 left-16 sm:left-8`}
         style={{ ...arabicSprings }}
       >
         أوبرون و إيثـــار
       </animated.div>
 
       <animated.div
-        className={`${dolce.className} text-3xl md:text-4xl absolute bottom-2 left-8`}
+        className={`${dolce.className} text-3xl md:text-4xl absolute bottom-2 left-16 sm:left-8`}
         style={{ ...englishSprings }}
       >
         Aubron + Ethar

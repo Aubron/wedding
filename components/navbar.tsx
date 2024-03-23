@@ -25,12 +25,39 @@ import { useEffect, useState } from "react";
 import { Logo } from "@/components/logo";
 import { usePathname } from "next/navigation";
 
+const menuItems = [
+  {
+    name: "RSVP",
+    path: "/about",
+  },
+  {
+    name: "Events",
+    path: "/events",
+  },
+  {
+    name: "Seattle",
+    path: "/seattle",
+  },
+  {
+    name: "FAQ",
+    path: "/faq",
+  },
+  {
+    name: "Registry",
+    path: "https://withjoy.com/aubron-and-ethar/registry",
+  },
+];
+
 export const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathName = usePathname();
-  console.log(pathName);
   return pathName !== "/" ? (
-    <NextUINavbar>
+    <NextUINavbar onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
       <NavbarContent justify="start">
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <NextLink
             className="flex justify-start items-center gap-1"
@@ -41,9 +68,41 @@ export const Navbar = () => {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent justify="end">
+      <NavbarContent justify="end" className="flex-shrink">
+        <div className="hidden sm:flex gap-8">
+          {menuItems.map((item, index) => (
+            <NavbarItem key={`${item}-${index}`}>
+              <Link
+                color={pathName === item.path ? "primary" : "foreground"}
+                href={item.path}
+                target={item.path.startsWith("http") ? "_blank" : undefined}
+                size="md"
+              >
+                {item.name}
+              </Link>
+            </NavbarItem>
+          ))}
+        </div>
         <ThemeSwitch />
       </NavbarContent>
+      <NavbarMenu>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            <Link
+              color={pathName === item.path ? "primary" : "foreground"}
+              className="w-full"
+              href={item.path}
+              size="lg"
+              target={item.path.startsWith("http") ? "_blank" : undefined}
+              onClick={() => {
+                setIsMenuOpen(false);
+              }}
+            >
+              {item.name}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
     </NextUINavbar>
   ) : null;
 };

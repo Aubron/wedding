@@ -14,7 +14,7 @@ import seattle3 from "../../public/images/seattle2.webp";
 export default function Home() {
   const router = useRouter();
   return (
-    <section className="grid grid-cols-8 gap-2 pt-4">
+    <section className="grid grid-cols-8 gap-2 pt-4 md:gap-4">
       <Card
         isFooterBlurred
         className="col-span-8 md:col-span-5 md:row-span-2 lg:col-span-6"
@@ -44,7 +44,7 @@ export default function Home() {
         </CardBody>
       </Card>
       <Rsvp />
-      <BottomNav />
+      <BottomNav exclude="rsvp" />
     </section>
   );
 }

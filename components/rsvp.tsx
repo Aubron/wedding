@@ -17,6 +17,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useLazyQuery } from "@apollo/client";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 
 const GET_USERS = gql`
   query GetGuests {
@@ -66,6 +67,11 @@ interface GuestSearch {
 }
 
 const Rsvp = () => {
+  const router = useRouter();
+  if (typeof window !== "undefined" && !localStorage.getItem("rsvp-password")) {
+    router.push("/");
+  }
+
   // the ID of the selected guest
   const [isGuestSelected, setIsGuestSelected] = useState(false);
   // query to get the list of guests
@@ -133,6 +139,7 @@ const Rsvp = () => {
   };
 
   const onSecondaryNameChange = (value: string) => {
+    console.log(value);
     if (guestState) {
       setGuestState({
         ...guestState,
@@ -212,84 +219,90 @@ const Rsvp = () => {
                 </div>
               ) : (
                 <>
-                  <Table removeWrapper className="pt-4">
-                    <TableHeader
-                      columns={[
-                        { key: "name", label: "Name" },
-                        { key: "RSVP", label: "RSVP" },
-                        { key: "vegan", label: "Veg/Vegan" },
-                      ]}
-                    >
-                      {(column) => (
-                        <TableColumn key={column.key}>
-                          {column.label}
-                        </TableColumn>
-                      )}
-                    </TableHeader>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>{guestState.name_primary}</TableCell>
-                        <TableCell className="text-center">
+                  <div className="grid grid-cols-[1fr,auto,auto] pt-4 gap-1 px-2">
+                    <div className="text-foreground-400 text-xs ">Name</div>
+                    <div className="text-foreground-400 text-xs text-center">
+                      RSVP
+                    </div>
+                    <div className="text-foreground-400 text-xs text-center">
+                      Veg/Vegan
+                    </div>
+                    <div className="h-12 mt-2">{guestState.name_primary}</div>
+                    <div className="text-center">
+                      <Checkbox
+                        className="ml-1 mt-1"
+                        aria-labelledby="rsvp-status"
+                        isSelected={guestState.rsvpStatus}
+                        onValueChange={onCheckboxChange("rsvpStatus")}
+                      />
+                    </div>
+                    <div className="text-center">
+                      <Checkbox
+                        className="ml-1 mt-1"
+                        aria-labelledby="vegan-status"
+                        isSelected={guestState.vegan}
+                        onValueChange={onCheckboxChange("vegan")}
+                      />
+                    </div>
+                    {!guestState.secondaryEditable &&
+                    guestState.name_secondary ? (
+                      <>
+                        <div className="h-12">{guestState.name_secondary}</div>
+                        <div className="text-center">
                           <Checkbox
-                            isSelected={guestState.rsvpStatus}
-                            onValueChange={onCheckboxChange("rsvpStatus")}
+                            className="ml-1 mt-1"
+                            aria-labelledby="rsvp-status"
+                            isSelected={guestState.rsvpSecondaryStatus}
+                            onValueChange={onCheckboxChange(
+                              "rsvpSecondaryStatus"
+                            )}
                           />
-                        </TableCell>
-                        <TableCell className="text-center">
+                        </div>
+                        <div className="text-center">
                           <Checkbox
-                            isSelected={guestState.vegan}
-                            onValueChange={onCheckboxChange("vegan")}
+                            className="ml-1 mt-1"
+                            aria-labelledby="vegan-status"
+                            isSelected={guestState.veganSecondary}
+                            onValueChange={onCheckboxChange("veganSecondary")}
                           />
-                        </TableCell>
-                      </TableRow>
-                      {!guestState.secondaryEditable &&
-                      guestState.name_secondary ? (
-                        <TableRow>
-                          <TableCell>{guestState.name_secondary}</TableCell>
-                          <TableCell className="text-center">
-                            <Checkbox
-                              isSelected={guestState.rsvpSecondaryStatus}
-                              onValueChange={onCheckboxChange(
-                                "rsvpSecondaryStatus"
-                              )}
-                            />
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <Checkbox
-                              isSelected={guestState.veganSecondary}
-                              onValueChange={onCheckboxChange("veganSecondary")}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      ) : (
-                        <TableRow>
-                          <TableCell>
-                            <Input
-                              className="-ml-2"
-                              placeholder="Your +1"
-                              size="sm"
-                              value={guestState.name_secondary}
-                              onValueChange={onSecondaryNameChange}
-                            />
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <Checkbox
-                              isSelected={guestState.rsvpSecondaryStatus}
-                              onValueChange={onCheckboxChange(
-                                "rsvpSecondaryStatus"
-                              )}
-                            />
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <Checkbox
-                              isSelected={guestState.veganSecondary}
-                              onValueChange={onCheckboxChange("veganSecondary")}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="h-12">
+                          <Input
+                            className="-ml-2"
+                            size="sm"
+                            placeholder="Your +1"
+                            aria-labelledby="rsvp-name"
+                            value={guestState.name_secondary}
+                            onValueChange={onSecondaryNameChange}
+                            onKeyDown={(e) => {
+                              console.log(e);
+                            }}
+                          />
+                        </div>
+                        <div className="text-center">
+                          <Checkbox
+                            className="ml-1 mt-1"
+                            aria-labelledby="rsvp-status"
+                            isSelected={guestState.rsvpSecondaryStatus}
+                            onValueChange={onCheckboxChange(
+                              "rsvpSecondaryStatus"
+                            )}
+                          />
+                        </div>
+                        <div className="text-center">
+                          <Checkbox
+                            className="ml-1 mt-1"
+                            aria-labelledby="vegan-status"
+                            isSelected={guestState.veganSecondary}
+                            onValueChange={onCheckboxChange("veganSecondary")}
+                          />
+                        </div>
+                      </>
+                    )}
+                  </div>
                   <Button
                     className="mt-4"
                     color="primary"
