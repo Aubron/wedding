@@ -11,7 +11,7 @@ interface EventCardProps {
 
 const EventCard = ({ name, description, photo }: EventCardProps) => {
   return (
-    <Card className="col-span-8 sm:col-span-5 md:col-span-6">
+    <Card className="col-span-8 sm:col-span-5 md:col-span-6 p-4">
       <CardBody>
         <h1 className={"text-4xl font-semibold " + gaultier.className}>
           {name}

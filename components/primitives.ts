@@ -9,6 +9,7 @@ export const about = tv({
       value: "text-xl " + gaultier.className,
       heading: "text-3xl " + gaultier.className,
       date: "text-md " + gaultier.className,
+      welcome: "text-lg leading-tight " + gaultier.className,
     },
     padding: {
       true: "pb-2",

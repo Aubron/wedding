@@ -21,7 +21,7 @@ const EventDate = ({
   return (
     <div
       className={
-        "pt-4 ol-span-8 sm:col-span-3 md:col-span-2 text-center " +
+        "pt-4 col-span-8 sm:col-span-3 md:col-span-2 text-center " +
         gaultier.className
       }
     >

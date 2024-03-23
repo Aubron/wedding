@@ -46,6 +46,12 @@ const events: EventDefiniton[] = [
     },
     description: [
       "Join us for our wedding ceremony at The Hall at Fauntleroy.",
+      "4:00 PM - Guest Arrival",
+      "4:30 PM - Ceremony Begins",
+      "5:30 PM - Mingling Hour",
+      "6:30 PM - Dinner Buffet Opens",
+      "7:30 PM - Dancing",
+      "10:00 PM - Jirtig (Sudanese Traditional Event)",
     ],
     photo: fauntleroyLogo,
   },
